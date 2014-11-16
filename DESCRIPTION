@@ -3,11 +3,14 @@ Type: Package
 Title: Generalized Order-Restricted Information Criterion
 Version: 0.0-8
 Date: 2014-11-17
+Authors@R: c(person("Daniel", "Gerhard", role = c("aut", "cre"),
+		     email = "00gerhard@gmail.com"),
+	      person("Rebecca M.", "Kuiper", role = "aut"))
 Author: Daniel Gerhard and Rebecca M. Kuiper
 Maintainer: Daniel Gerhard <00gerhard@gmail.com>
 Description: Generalized Order-Restricted Information Criterion (GORIC) value for a set of hypotheses in multivariate regression models
-Depends: mvtnorm, quadprog, Matrix, nlme, MASS
-Suggests: parallel
+Depends: nlme
+Imports: quadprog, mvtnorm, MASS, Matrix, parallel
 License: GPL (>=2)
 LazyData: yes
 LazyLoad: yes

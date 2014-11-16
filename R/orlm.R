@@ -5,7 +5,6 @@ UseMethod("orlm")
 
 orlm.formula <-
 function(formula, data, constr, rhs, nec, control=orlmcontrol()){
-  require(quadprog)
   cl <- match.call()
   mf <- match.call(expand.dots = FALSE)
   m <- match(c("formula", "data", "subset", "weights", "na.action", "offset"), names(mf), 0L)

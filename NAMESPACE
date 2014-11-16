@@ -1,6 +1,13 @@
 export(orlm, orgls, goric, goric_penalty, orlmcontrol, sim, orlmSet, orglsSet, constrMat, constrSet, orglm, orglm.fit, orglm_penalty)
 exportClasses("orlm","orgls","orglm","goric")
 
+import("nlme")
+import("parallel")
+importFrom("quadprog", solve.QP)
+importFrom("mvtnorm", rmvnorm)
+importFrom("MASS", lm.gls)
+importFrom("Matrix", bdiag)
+
 S3method(orlm, formula)
 S3method(orgls, formula)
 S3method(goric, orlm)

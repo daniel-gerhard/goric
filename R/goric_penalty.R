@@ -1,7 +1,5 @@
 goric_penalty <-
 function(object, iter=100000, type="GORIC", mc.cores=1){
-  require(quadprog)
-  require(mvtnorm)
   if (!(inherits(object, "orlm") | inherits(object, "orgls"))) stop("object needs to be of class orlm or orgls")
   if (all(object$constr == 0) & object$nec == 0 & type == "GORIC"){
     penalty <- length(object$coefficients) + 1
@@ -23,7 +21,6 @@ function(object, iter=100000, type="GORIC", mc.cores=1){
         if (QP$iact[1] == 0) return(0) else return(length(QP$iact))
       })
     } else {
-      require(parallel)
       cl <- makeCluster(mc.cores)
       clusterExport(cl, c("solve.QP"))
       nact <- parRapply(cl, Z, function(z, invW,Dmat,Amat,bvec,nec){
@@ -56,8 +53,6 @@ function(object, iter=100000, type="GORIC", mc.cores=1){
 
 
 orglm_penalty <- function(object, iter=100000, type="GORIC", mc.cores=1){
-  require(quadprog)
-  require(mvtnorm)
   if (!(inherits(object, "orglm"))) stop("object needs to be of class orglm")
   X <- object$X
   wt <- sqrt(object$weights)
@@ -76,7 +71,6 @@ orglm_penalty <- function(object, iter=100000, type="GORIC", mc.cores=1){
       if (QP$iact[1] == 0) return(0) else return(length(QP$iact))
     })
   } else {
-    require(parallel)
     cl <- makeCluster(mc.cores)
     clusterExport(cl, c("solve.QP"))
     nact <- parRapply(cl, Z, function(z, invW,Dmat,Amat,bvec,nec){

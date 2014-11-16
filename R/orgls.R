@@ -6,12 +6,7 @@ UseMethod("orgls")
 
 orgls.formula <-
 function(formula, data, constr, rhs, nec, weights=NULL, correlation=NULL, control=orlmcontrol()){
-  require(quadprog)
-  require(nlme)
-  require(MASS)
-  require(Matrix)
   cl <- match.call()
-
   if (!is.null(correlation)){
     groups <- getGroupsFormula(correlation)
   } else {

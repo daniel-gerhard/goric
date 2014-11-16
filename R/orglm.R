@@ -70,7 +70,6 @@ orglm.fit <- function(x, y, weights = rep(1, nobs), start = NULL, etastart = NUL
   
   ###################
   orr <- function(x, y, constr, rhs, nec){
-    require(quadprog)
     unc <- lm.fit(x, y)
     tBeta <- as.vector(coefficients(unc))
     invW <- t(x) %*% x
@@ -253,6 +252,6 @@ orglm.fit <- function(x, y, weights = rep(1, nobs), start = NULL, etastart = NUL
   nulldf <- n.ok - as.integer(intercept)
   fit$rank <- rank <- if (EMPTY) 0 else qr(x)$rank
   resdf <- n.ok - rank
-  aic.model <- aic(y, n, mu, weights, dev) #+ 2 * rank
+  aic.model <- eval(parse(text="aic(y, n, mu, weights, dev)")) #+ 2 * rank
   list(coefficients = coef, residuals = residuals, fitted.values = mu, rank=rank, family = family, linear.predictors = eta, deviance = dev, null.deviance = nulldev, iter = iter, weights = wt, prior.weights = weights, df.residual = resdf, df.null = nulldf, y = y, X=x, converged = conv, boundary = boundary, aic=NA, oaic=aic.model, constr=constr, rhs=rhs, nec=nec)
 }
