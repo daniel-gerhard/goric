@@ -7,6 +7,12 @@ importFrom("quadprog", solve.QP)
 importFrom("mvtnorm", rmvnorm)
 importFrom("MASS", lm.gls)
 importFrom("Matrix", bdiag)
+importFrom("stats", ".getXlevels", "as.formula", "coef",
+             "coefficients", "contrasts", "gaussian", "is.empty.model",
+             "lm", "lm.fit", "model.extract", "model.frame",
+             "model.matrix", "model.offset", "model.response",
+             "model.weights", "na.fail", "rchisq", "residuals", "rnorm",
+             "terms")
 
 S3method(orlm, formula)
 S3method(orgls, formula)

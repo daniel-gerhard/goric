@@ -72,7 +72,13 @@ goric.orglm <- function(object, ..., iter=100000, type="GORIC", dispersion=1, mc
     if (fam$family %in% c("gaussian", "Gamma", "inverse.gaussian")) p <- p + 1
     return(p - x$oaic/2)
   })  
-  penalty <- sapply(orglmlist, function(x) orglm_penalty(object=x, iter=iter, type=type, mc.cores=mc.cores))
+  penalty <- sapply(orglmlist, function(x){
+    penal <- orglm_penalty(object=x, iter=iter, type=type, mc.cores=mc.cores)
+    fam <- x$family
+    if (fam$family %in% c("gaussian", "Gamma", "inverse.gaussian")) penal <- penal + 1
+    return(penal)
+  })
+  
   goric <- -2*loglik/dispersion + 2*penalty
   delta <- goric - min(goric)
   goric_weights <- exp(-delta/2)/sum(exp(-delta/2))
