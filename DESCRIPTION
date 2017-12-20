@@ -1,13 +1,13 @@
 Package: goric
 Type: Package
-Title: Generalized Order-Restricted Information Criterion for Selecting Order-Restricted (Multivariate) Linear Models
-Version: 0.0-95
-Date: 2017-01-11
+Title: Generalized Order-Restricted Information Criterion
+Version: 1.0-0
+Date: 2017-12-20
 Authors@R: c(person("Daniel", "Gerhard", role = c("aut", "cre"),
 		     email = "00gerhard@gmail.com"),
 	      person("Rebecca M.", "Kuiper", role = "aut"))
 Maintainer: Daniel Gerhard <00gerhard@gmail.com>
-Description: Generalized Order-Restricted Information Criterion (GORIC) value for a set of hypotheses in multivariate regression models.
+Description: Generalized Order-Restricted Information Criterion (GORIC) value for a set of hypotheses in multivariate linear models and generalised linear models.
 Depends: nlme
 Imports: quadprog, mvtnorm, MASS, Matrix, parallel
 License: GPL (>=2)

@@ -1,16 +1,22 @@
+
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/goric)](https://cran.r-project.org/package=goric) [![Build Status](https://travis-ci.org/daniel-gerhard/goric.svg?branch=master)](https://travis-ci.org/daniel-gerhard/goric) [![Downloads](https://cranlogs.r-pkg.org/badges/goric)](https://cranlogs.r-pkg.org/)
+
 goric
 =====
 
-R package GORIC (Generalized Order Restricted Information Criterion)
+Overview
+--------
 
-The package provides functions for fitting multivariate linear models or generalized least-square models with order restrictions on the model parameters. Different models can be compared the generalized order restriction criterion, an extension of AIC for order restricted models.
+The package provides functions for fitting multivariate linear models, generalised linear models, or generalized least-square models with order restrictions on the model parameters. Different models can be compared with the generalized order restriction criterion, an extension of AIC for order restricted models.
 
-This is a development version with some additional features. A more stable version is availabe on CRAN.
+Installation
+------------
 
-For more information about the method, see:
-Kuiper R.M., Hoijtink H., Silvapulle M.J. (2011). An Akaike-type Information Criterion for Model Selection Under Inequality Constraints. Biometrika,98, 495--501.
+``` r
+# You can install goric from CRAN by
+install.packages("goric")
 
-Kuiper R.M., Hoijtink H., Silvapulle M.J. (2012). Generalization of the Order-Restricted Information Criterion for Multivariate Normal Linear Models. Journal of Statistical Planning and Inference, 142, 2454-2463. doi:10.1016/j.jspi.2012.03.007.
-
-
-
+# Or the the development version from GitHub:
+# install.packages("devtools")
+devtools::install_github("daniel-gerhard/goric")
+```

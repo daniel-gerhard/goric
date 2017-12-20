@@ -1,0 +1,106 @@
+---
+title: "Introduction to the goric package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{goric_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Selecting multivariate linear models with shape constraints
+
+An experiment was conducted to find out whether vinylidene fluoride gives rise to liver damage. The dataset is available on page 10 of Silvapulle and Sen (2005) and in a report prepared by Litton Bionetics Inc in 1984. Since increased levels of serum enzyme are inherent in liver damage, the focus is on whether enzyme levels are affected by vinylidene fluoride. The variable of interest is the serum enzyme level. Three types of enzymes are inspected, namely SDH, SGOT, and SGPT. To study whether vinylidene fluoride has an influence on the three serum enzymes, four dosages of this substance are examined. In each of these four treatment groups, ten male Fischer-344 rats received the substance.
+
+The data is available in the goric package.
+
+```{r, vinylidene, warning=FALSE, message=FALSE}
+library(goric)
+data(vinylidene)
+knitr::kable(head(vinylidene))
+```
+
+## Estimating marginal dose means
+
+The dose is a factor with 4 levels; hence, we can estimate the average response per dose level in a linear model, setting the intercept to 0. 
+
+```{r, lm}
+m <- lm(cbind(SDH, SGOT, SGPT) ~ 0 + dose, data=vinylidene)
+knitr::kable(coefficients(m))
+```
+
+Instead of the function lm(), we can use the function orlm() of the package goric. As we don't want to add constraints on the parameters, we set all elements in the constraint matrix to 0.
+
+```{r}
+unconstrained <- orlm(cbind(SDH, SGOT, SGPT) ~ 0 + dose, 
+                      data=vinylidene,
+                      constr=matrix(0, nrow=1, ncol=12), 
+                      rhs=0, nec=0)
+knitr::kable(coefficients(unconstrained))
+```
+
+
+## Monotone order of serum levels
+
+We can fit a second model, adding the order constraints on the model coefficients of monotone increasing serum means with increasing dose levels. The constraints are included with a constraint matrix that defines linear combinations of model coefficients; therefore, this matrix needs to have the same number of columns as there are coefficients in the model; the first four columns correspond to the first response, the following columns represent the second and third response.
+
+```{r}
+cmat <- cbind(-diag(3), 0) + cbind(0, diag(3))
+constr <- kronecker(diag(3), cmat)
+knitr::kable(constr)
+```
+
+The monotone increase is specified by constraining the difference between consecutive coefficients to be larger or equal than 0; hence, two additional arguments are needed: rhs defines the boundary of the inequality constraint space and nec denotes the number of inequality constraints, which can be either a number of rows or a logical vector, where TRUE defines an inequality constraint and FALSE an equality constraint.
+
+```{r}
+monotone <- orlm(cbind(SDH, SGOT, SGPT) ~ dose-1,
+                 data=vinylidene,
+                 constr=constr, 
+                 rhs=rep(0, nrow(constr)), 
+                 nec=0)
+knitr::kable(round(coefficients(monotone), 2))
+```
+
+The comparison of the constrained with the unconstrained estimates demonstrate that there is one active constraint for SGOT, affecting the average serum estimates at dose levels 2 and 3, and for SGPT, enforcing a monotone order leads to the same estimate for all dose levels.
+
+
+## Equality constraints
+
+We can fit a third model under the assumption of no effect of the dose, changing all previous inequality constraints of the monotone order assumption into equality constraints. 
+
+```{r}
+noeffect <- orlm(cbind(SDH, SGOT, SGPT) ~ dose-1,
+                 data=vinylidene,
+                 constr=constr, 
+                 rhs=rep(0, nrow(constr)), 
+                 nec=nrow(constr))
+knitr::kable(round(coefficients(noeffect), 2))
+```
+
+## The Generalised Order Restricted Information Criterion
+
+The three different models can be compared by calculating information criteria with the function goric(), which also provides model weights for each model in the set.
+The penalty term of the information criterion includes a level probability, which is computed by Monte-Carlo simulation; therefore, the number of Monte-Carlo iterations has to be provided.
+
+```{r}
+ic <- goric(unconstrained, monotone, noeffect, iter=100000)
+knitr::kable(ic)
+```
+
+We obtain a very high weight for the unconstrained model, demonstrating that we cannot assume a monotone order of expected serum enzyme levels with increasing dosage for all of the three serums.
+
+
+## References
+
+* Kuiper R.M., Hoijtink H., Silvapulle M.J. (2011). An Akaike-type Information Criterion for Model Selection Under Inequality Constraints. *Biometrika*, **98**, 495-501.
+
+* Kuiper R.M., Hoijtink H., Silvapulle M.J. (2012). Generalization of the Order-Restricted Information Criterion for Multivariate Normal Linear Models. *Journal of Statistical Planning and Inference*, **142**, 2454-2463. doi:10.1016/j.jspi.2012.03.007.
+
+* Kuiper R.M., Gerhard D., Hothorn L.A. (2014). Identification of the Minimum Effective Dose for Normally Distributed Endpoints Using a Model Selection Approach. *Statistics in Biopharmaceutical Research*, **6**(1), 55-66. doi:10.1080/19466315.2013.847384
