@@ -8,6 +8,7 @@ reference:
   desc: Calculating the generalised order restricted information criterion
   contents:
   - goric
+  - goric_penalty
 - title: Pre-defined sets of models
   contents:
   - constrMat

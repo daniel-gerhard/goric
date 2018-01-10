@@ -1,3 +1,16 @@
+#' GORIC penalty term
+#' 
+#' Calculates the GORIC penalty term (level probability) by Monte-Carlo simulation.
+#' 
+#' @param object an object of class orlm, orgls (or orglm for function \code{orglm_penalty})
+#' @param iter number of iterations to calculate GORIC penalty terms
+#' @param type if \code{"GORIC"} (default), the penalty term for the generalized order restriction information criterion is computed; with \code{"GORICCa"} or \code{"GORICCb"} small sample corrections for the penalty term are applied
+#' @param mc.cores number of cores using a socket cluster implemented in package \code{parallel}
+#' 
+#' @seealso \code{\link{orlm}}, \code{\link{orgls}}, \code{\link{orglm}}
+#' 
+#' @keywords misc
+
 goric_penalty <-
 function(object, iter=100000, type="GORIC", mc.cores=1){
   if (!(inherits(object, "orlm") | inherits(object, "orgls"))) stop("object needs to be of class orlm or orgls")
@@ -51,7 +64,7 @@ function(object, iter=100000, type="GORIC", mc.cores=1){
   return(penalty)
 }
 
-
+#' @rdname goric_penalty
 orglm_penalty <- function(object, iter=100000, type="GORIC", mc.cores=1){
   if (!(inherits(object, "orglm"))) stop("object needs to be of class orglm")
   X <- object$X
