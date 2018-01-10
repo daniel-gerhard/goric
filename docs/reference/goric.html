@@ -171,9 +171,8 @@ To safequard for weak hypotheses (i.e., hypotheses not supported by the data), o
 #&gt;  [8,]    0    0    0    0    0    0    0    0    0     1    -1     0
 #&gt;  [9,]    0    0    0    0    0    0    0    0    0     0     1    -1</div><div class='input'>
 <span class='co'># no effect model</span>
-<span class='no'>fm0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='orlm.html'>orlm</a></span>(<span class='fu'>cbind</span>(<span class='no'>SDH</span>, <span class='no'>SGOT</span>, <span class='no'>SGPT</span>) ~ <span class='no'>dose</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vinylidene</span>,
-            <span class='kw'>constr</span><span class='kw'>=</span><span class='no'>constr</span>, <span class='kw'>rhs</span><span class='kw'>=</span><span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fu'>nrow</span>(<span class='no'>constr</span>)), <span class='kw'>nec</span><span class='kw'>=</span><span class='fu'>nrow</span>(<span class='no'>constr</span>))
-<span class='no'>fm0</span></div><div class='output co'>#&gt; 
+(<span class='no'>fm0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='orlm.html'>orlm</a></span>(<span class='fu'>cbind</span>(<span class='no'>SDH</span>, <span class='no'>SGOT</span>, <span class='no'>SGPT</span>) ~ <span class='no'>dose</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vinylidene</span>,
+            <span class='kw'>constr</span><span class='kw'>=</span><span class='no'>constr</span>, <span class='kw'>rhs</span><span class='kw'>=</span><span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fu'>nrow</span>(<span class='no'>constr</span>)), <span class='kw'>nec</span><span class='kw'>=</span><span class='fu'>nrow</span>(<span class='no'>constr</span>)))</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; orlm.formula(formula = cbind(SDH, SGOT, SGPT) ~ dose - 1, data = vinylidene, 
 #&gt;     constr = constr, rhs = rep(0, nrow(constr)), nec = nrow(constr))
@@ -188,11 +187,31 @@ To safequard for weak hypotheses (i.e., hypotheses not supported by the data), o
 <span class='co'># order constrained model (increasing serum levels with increasing doses)</span>
 <span class='no'>fm1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='orlm.html'>orlm</a></span>(<span class='fu'>cbind</span>(<span class='no'>SDH</span>, <span class='no'>SGOT</span>, <span class='no'>SGPT</span>) ~ <span class='no'>dose</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vinylidene</span>,
             <span class='kw'>constr</span><span class='kw'>=</span><span class='no'>constr</span>, <span class='kw'>rhs</span><span class='kw'>=</span><span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fu'>nrow</span>(<span class='no'>constr</span>)), <span class='kw'>nec</span><span class='kw'>=</span><span class='fl'>0</span>)
-<span class='fu'>mmary</span>(<span class='no'>fm1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in mmary(fm1): could not find function "mmary"</span></div><div class='input'>
+<span class='fu'>summary</span>(<span class='no'>fm1</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; orlm.formula(formula = cbind(SDH, SGOT, SGPT) ~ dose - 1, data = vinylidene, 
+#&gt;     constr = constr, rhs = rep(0, nrow(constr)), nec = 0)
+#&gt; 
+#&gt; logLik:  -396.8 
+#&gt; 
+#&gt; Coefficients:
+#&gt;         SDH     SGOT    SGPT  
+#&gt; dosed1   24.12  105.37   63.00
+#&gt; dosed2   24.12  105.37   63.00
+#&gt; dosed3   24.12  105.37   60.64
+#&gt; dosed4   24.12  105.37   52.16
+#&gt; 
+#&gt; Unconstrained solution:
+#&gt;         SDH    SGOT   SGPT 
+#&gt; dosed1   22.7   99.3   61.9
+#&gt; dosed2   22.8  108.4   63.8
+#&gt; dosed3   23.7  100.9   60.2
+#&gt; dosed4   27.3  112.9   52.9
+#&gt; 
+#&gt; Active constraints: 6 4 3 5 2 1 7 </div><div class='input'>
 <span class='co'># unconstrained model</span>
-<span class='no'>fmunc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='orlm.html'>orlm</a></span>(<span class='fu'>cbind</span>(<span class='no'>SDH</span>, <span class='no'>SGOT</span>, <span class='no'>SGPT</span>) ~ <span class='no'>dose</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vinylidene</span>,
-              <span class='kw'>constr</span><span class='kw'>=</span><span class='fu'>matrix</span>(<span class='fl'>0</span>, <span class='kw'>nrow</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>ncol</span><span class='kw'>=</span><span class='fl'>12</span>), <span class='kw'>rhs</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>nec</span><span class='kw'>=</span><span class='fl'>0</span>)
-<span class='no'>fmunc</span></div><div class='output co'>#&gt; 
+(<span class='no'>fmunc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='orlm.html'>orlm</a></span>(<span class='fu'>cbind</span>(<span class='no'>SDH</span>, <span class='no'>SGOT</span>, <span class='no'>SGPT</span>) ~ <span class='no'>dose</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vinylidene</span>,
+              <span class='kw'>constr</span><span class='kw'>=</span><span class='fu'>matrix</span>(<span class='fl'>0</span>, <span class='kw'>nrow</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>ncol</span><span class='kw'>=</span><span class='fl'>12</span>), <span class='kw'>rhs</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>nec</span><span class='kw'>=</span><span class='fl'>0</span>))</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; orlm.formula(formula = cbind(SDH, SGOT, SGPT) ~ dose - 1, data = vinylidene, 
 #&gt;     constr = matrix(0, nrow = 1, ncol = 12), rhs = 0, nec = 0)

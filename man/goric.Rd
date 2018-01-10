@@ -55,19 +55,17 @@ constr <- kronecker(diag(3), cmat)
 constr
 
 # no effect model
-fm0 <- orlm(cbind(SDH, SGOT, SGPT) ~ dose-1, data=vinylidene,
-            constr=constr, rhs=rep(0, nrow(constr)), nec=nrow(constr))
-fm0
+(fm0 <- orlm(cbind(SDH, SGOT, SGPT) ~ dose-1, data=vinylidene,
+            constr=constr, rhs=rep(0, nrow(constr)), nec=nrow(constr)))
 
 # order constrained model (increasing serum levels with increasing doses)
 fm1 <- orlm(cbind(SDH, SGOT, SGPT) ~ dose-1, data=vinylidene,
             constr=constr, rhs=rep(0, nrow(constr)), nec=0)
-mmary(fm1)
+summary(fm1)
 
 # unconstrained model
-fmunc <- orlm(cbind(SDH, SGOT, SGPT) ~ dose-1, data=vinylidene,
-              constr=matrix(0, nrow=1, ncol=12), rhs=0, nec=0)
-fmunc
+(fmunc <- orlm(cbind(SDH, SGOT, SGPT) ~ dose-1, data=vinylidene,
+              constr=matrix(0, nrow=1, ncol=12), rhs=0, nec=0))
 
 # calculate GORIC
 # (only small number of iterations to decrease computation time, default: iter=100000)
