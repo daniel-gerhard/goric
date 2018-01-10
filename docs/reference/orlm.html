@@ -82,15 +82,14 @@
     </div>
 
     
-    <p>It determines the order-restricted maximum likelihood estimates 
-and the corresponding log likelihood for the hypothesis of interest.
-Additionally it gives the (unconstrained) maximum likelihood estimates and
-the active contraints.</p>
+    <p>This is a modification of the <code>lm</code> function, fitting (multivariate) linear models with order constraints on the model coefficients.</p>
     
 
     <pre class="usage"><span class='fu'>orlm</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='no'>constr</span>, <span class='no'>rhs</span>, <span class='no'>nec</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='orlmcontrol.html'>orlmcontrol</a></span>())
+
 <span class='co'># S3 method for formula</span>
-<span class='fu'>orlm</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='no'>constr</span>, <span class='no'>rhs</span>, <span class='no'>nec</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='orlmcontrol.html'>orlmcontrol</a></span>())</pre>
+<span class='fu'>orlm</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='no'>constr</span>, <span class='no'>rhs</span>, <span class='no'>nec</span>,
+  <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='orlmcontrol.html'>orlmcontrol</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -105,20 +104,15 @@ the active contraints.</p>
     </tr>
     <tr>
       <th>constr</th>
-      <td><p>matrix with constraints; with rows as constraint
-    definition, columns should be in line with the parameters of the model</p></td>
+      <td><p>matrix with constraints; with rows as constraint definition, columns should be in line with the parameters of the model</p></td>
     </tr>
     <tr>
       <th>rhs</th>
-      <td><p>vector of right hand side elements; \(Constr \; \theta \geq
-      rhs\); number should equal the number of rows of the constr matrix</p></td>
+      <td><p>vector of right hand side elements; \(Constr \; \theta \geq rhs\); number should equal the number of rows of the constr matrix</p></td>
     </tr>
     <tr>
       <th>nec</th>
-      <td><p>number of equality constraints; a numeric value treating
-    the first nec constr rows as equality constraints, or a logical
-    vector with <code>TRUE</code> for equality- and <code>FALSE</code> for
-    inequality constraints.</p></td>
+      <td><p>number of equality constraints; a numeric value treating the first nec constr rows as equality constraints, or a logical vector with <code>TRUE</code> for equality- and <code>FALSE</code> for inequality constraints.</p></td>
     </tr>
     <tr>
       <th>control</th>
@@ -126,35 +120,25 @@ the active contraints.</p>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The contraints in the hypothesis of interest are defined by 
-\(Constr\), \(rhs\), and \(nec\).
-The first \(nec\) constraints are the equality contraints:
-\(Constr[1:nec, 1:tk] \theta = rhs[1:nec]\);
-and the remaing ones are the inequality contraints:
-\(Constr[nec+1:c_m, 1:tk] \theta \geq rhs[nec+1:c_m]\).</p>
-<p>Two requirements should be met:</p><ol>
-<li><p>The first \(nec\) constraints must be the equality contraints 
-(i.e., \(Constr[1:nec, 1:tk] \theta = rhs[1:nec]\)) 
-and the remaining ones the inequality contraints
-(i.e., \(Constr[nec+1:c_m, 1:tk] \theta \geq rhs[nec+1:c_m]\)).</p></li>
-<li><p>When \(rhs\) is not zero, \(Constr\) should be of full rank 
-(after discarding redundant restrictions). 
-More information can be obtained from Kuiper, Hoijtink, and Silvapulle (2011) and Kuiper, Hoijtink, and Silvapulle (unpublished).</p></li>
-</ol>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>an object of class orlm</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The contraints in the hypothesis of interest are defined by \(Constr\), \(rhs\), and \(nec\). The first \(nec\) constraints are the equality contraints: \(Constr[1:nec, 1:tk] \theta = rhs[1:nec]\); and the remaing ones are the inequality contraints: \(Constr[nec+1:c_m, 1:tk] \theta \geq rhs[nec+1:c_m]\).
+Two requirements should be met:</p><ol>
+<li><p>The first \(nec\) constraints must be the equality contraints (i.e., \(Constr[1:nec, 1:tk] \theta = rhs[1:nec]\)) and the remaining ones the inequality contraints (i.e., \(Constr[nec+1:c_m, 1:tk] \theta \geq rhs[nec+1:c_m]\)).</p></li>
+<li><p>When \(rhs\) is not zero, \(Constr\) should be of full rank (after discarding redundant restrictions).</p></li>
+</ol>
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Kuiper R.M., Hoijtink H., Silvapulle M.J. (2011). An Akaike-type Information
-Criterion for Model Selection Under Inequality Constraints. <em>Biometrika</em>, 
-<b>98</b>, 495--501.</p>
-<p>Kuiper R.M., Hoijtink H., Silvapulle M.J. (2012). Generalization of the Order-Restricted Information Criterion for Multivariate Normal Linear Models. <em>Journal of Statistical Planning and Inference</em>, <b>142</b>, 2454-2463. doi:10.1016/j.jspi.2012.03.007.</p>
-<p>Kuiper R.M. and Hoijtink H. (submitted). A Fortran 90 Program for the Generalization of the Order-Restricted Information Criterion. Journal of Statictical Software.</p>
+    <ul>
+<li><p>Kuiper R.M., Hoijtink H., Silvapulle M.J. (2011). An Akaike-type Information Criterion for Model Selection Under Inequality Constraints. <em>Biometrika</em>, <b>98</b>, 495--501.</p></li>
+<li><p>Kuiper R.M., Hoijtink H., Silvapulle M.J. (2012). Generalization of the Order-Restricted Information Criterion for Multivariate Normal Linear Models. <em>Journal of Statistical Planning and Inference</em>, <b>142</b>, 2454-2463. doi:10.1016//j.jspi.2012.03.007.</p></li>
+<li><p>Kuiper R.M. and Hoijtink H. (submitted). A Fortran 90 Program for the Generalization of the Order-Restricted Information Criterion. Journal of Statictical Software.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -195,6 +179,7 @@ Criterion for Model Selection Under Inequality Constraints. <em>Biometrika</em>,
 <span class='co'># equality constraints (all parameters equal)</span>
 <span class='no'>fm5</span> <span class='kw'>&lt;-</span> <span class='fu'>orlm</span>(<span class='no'>y</span> ~ <span class='no'>grp</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>dat</span>, <span class='kw'>constr</span><span class='kw'>=</span><span class='no'>cm2</span>,
             <span class='kw'>rhs</span><span class='kw'>=</span><span class='fu'>rep</span>(<span class='fl'>0</span>,<span class='fu'>nrow</span>(<span class='no'>cm2</span>)), <span class='kw'>nec</span><span class='kw'>=</span><span class='fu'>nrow</span>(<span class='no'>cm2</span>))
+
 <span class='co'># alternatively</span>
 <span class='no'>fm5</span> <span class='kw'>&lt;-</span> <span class='fu'>orlm</span>(<span class='no'>y</span> ~ <span class='no'>grp</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>dat</span>, <span class='kw'>constr</span><span class='kw'>=</span><span class='no'>cm2</span>,
             <span class='kw'>rhs</span><span class='kw'>=</span><span class='fu'>rep</span>(<span class='fl'>0</span>,<span class='fu'>nrow</span>(<span class='no'>cm2</span>)), <span class='kw'>nec</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>,<span class='fl'>TRUE</span>))
@@ -222,9 +207,8 @@ Criterion for Model Selection Under Inequality Constraints. <em>Biometrika</em>,
 <span class='no'>constr</span> <span class='kw'>&lt;-</span> <span class='fu'>kronecker</span>(<span class='fu'>diag</span>(<span class='fl'>3</span>), <span class='no'>cmat</span>)
 
 <span class='co'># no effect model</span>
-<span class='no'>fm0</span> <span class='kw'>&lt;-</span> <span class='fu'>orlm</span>(<span class='fu'>cbind</span>(<span class='no'>SDH</span>, <span class='no'>SGOT</span>, <span class='no'>SGPT</span>) ~ <span class='no'>dose</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vinylidene</span>,
-            <span class='kw'>constr</span><span class='kw'>=</span><span class='no'>constr</span>, <span class='kw'>rhs</span><span class='kw'>=</span><span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fu'>nrow</span>(<span class='no'>constr</span>)), <span class='kw'>nec</span><span class='kw'>=</span><span class='fu'>nrow</span>(<span class='no'>constr</span>))
-<span class='no'>fm0</span></div><div class='output co'>#&gt; 
+(<span class='no'>fm0</span> <span class='kw'>&lt;-</span> <span class='fu'>orlm</span>(<span class='fu'>cbind</span>(<span class='no'>SDH</span>, <span class='no'>SGOT</span>, <span class='no'>SGPT</span>) ~ <span class='no'>dose</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vinylidene</span>,
+             <span class='kw'>constr</span><span class='kw'>=</span><span class='no'>constr</span>, <span class='kw'>rhs</span><span class='kw'>=</span><span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fu'>nrow</span>(<span class='no'>constr</span>)), <span class='kw'>nec</span><span class='kw'>=</span><span class='fu'>nrow</span>(<span class='no'>constr</span>)))</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; orlm.formula(formula = cbind(SDH, SGOT, SGPT) ~ dose - 1, data = vinylidene, 
 #&gt;     constr = constr, rhs = rep(0, nrow(constr)), nec = nrow(constr))
@@ -262,9 +246,8 @@ Criterion for Model Selection Under Inequality Constraints. <em>Biometrika</em>,
 #&gt; 
 #&gt; Active constraints: 6 4 3 5 2 1 7 </div><div class='input'>
 <span class='co'># unconstrained model</span>
-<span class='no'>fmunc</span> <span class='kw'>&lt;-</span> <span class='fu'>orlm</span>(<span class='fu'>cbind</span>(<span class='no'>SDH</span>, <span class='no'>SGOT</span>, <span class='no'>SGPT</span>) ~ <span class='no'>dose</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vinylidene</span>,
-              <span class='kw'>constr</span><span class='kw'>=</span><span class='fu'>matrix</span>(<span class='fl'>0</span>, <span class='kw'>nrow</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>ncol</span><span class='kw'>=</span><span class='fl'>12</span>), <span class='kw'>rhs</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>nec</span><span class='kw'>=</span><span class='fl'>0</span>)
-<span class='no'>fmunc</span></div><div class='output co'>#&gt; 
+(<span class='no'>fmunc</span> <span class='kw'>&lt;-</span> <span class='fu'>orlm</span>(<span class='fu'>cbind</span>(<span class='no'>SDH</span>, <span class='no'>SGOT</span>, <span class='no'>SGPT</span>) ~ <span class='no'>dose</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vinylidene</span>,
+               <span class='kw'>constr</span><span class='kw'>=</span><span class='fu'>matrix</span>(<span class='fl'>0</span>, <span class='kw'>nrow</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>ncol</span><span class='kw'>=</span><span class='fl'>12</span>), <span class='kw'>rhs</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>nec</span><span class='kw'>=</span><span class='fl'>0</span>))</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; orlm.formula(formula = cbind(SDH, SGOT, SGPT) ~ dose - 1, data = vinylidene, 
 #&gt;     constr = matrix(0, nrow = 1, ncol = 12), rhs = 0, nec = 0)
@@ -282,9 +265,9 @@ Criterion for Model Selection Under Inequality Constraints. <em>Biometrika</em>,
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
-
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
 
@@ -293,8 +276,6 @@ Criterion for Model Selection Under Inequality Constraints. <em>Biometrika</em>,
       <li><a href="#examples">Examples</a></li>
     </ul>
 
-    <h2>Author</h2>
-    Daniel Gerhard and Rebecca M. Kuiper
   </div>
 </div>
 

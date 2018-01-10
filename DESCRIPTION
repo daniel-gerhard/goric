@@ -1,8 +1,8 @@
 Package: goric
 Type: Package
 Title: Generalized Order-Restricted Information Criterion
-Version: 1.0-0
-Date: 2017-12-20
+Version: 1.1-0
+Date: 2018-01-10
 Authors@R: c(person("Daniel", "Gerhard", role = c("aut", "cre"),
 		     email = "00gerhard@gmail.com"),
 	      person("Rebecca M.", "Kuiper", role = "aut"))
@@ -15,3 +15,4 @@ LazyData: yes
 LazyLoad: yes
 Suggests: knitr
 VignetteBuilder: knitr
+RoxygenNote: 6.0.1

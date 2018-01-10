@@ -1,0 +1,26 @@
+reference:
+- title: Fitting order restricted models
+  contents:
+  - orlm
+  - orgls
+  - orglm
+- title: GORIC
+  desc: Calculating the generalised order restricted information criterion
+  contents:
+  - goric
+- title: Pre-defined sets of models
+  contents:
+  - constrMat
+  - constrSet
+  - orlmSet
+  - orglsSet
+- title: Data
+  contents:
+  - vinylidene
+- title: Misc
+  contents:
+  - sim
+  - orlmcontrol
+  
+  
+  

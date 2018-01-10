@@ -86,8 +86,10 @@
     
 
     <pre class="usage"><span class='fu'>sim</span>(<span class='no'>object</span>, <span class='no'>n.sims</span>)
+
 <span class='co'># S3 method for orlm</span>
 <span class='fu'>sim</span>(<span class='no'>object</span>, <span class='no'>n.sims</span>)
+
 <span class='co'># S3 method for orgls</span>
 <span class='fu'>sim</span>(<span class='no'>object</span>, <span class='no'>n.sims</span>)</pre>
     
@@ -110,11 +112,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Given the estimated coefficients of a orlm or orgls model, a
-  set new parameters are generated. n.sims new sets of observations are
-  generated based on the unrestricted model; these new datasets are used
-  to estimate a new set of model coefficients incorporating the given
-  order restrictions.</p>
+    <p>Given the estimated coefficients of a orlm or orgls model, a set new parameters are generated. n.sims new sets of observations are generated based on the unrestricted model; these new datasets are used to estimate a new set of model coefficients incorporating the given order restrictions.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -133,7 +131,7 @@
             <span class='fu'>c</span>(<span class='fl'>0</span>,-<span class='fl'>1</span>,<span class='fl'>1</span>))
 <span class='no'>fm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='orlm.html'>orlm</a></span>(<span class='no'>y</span> ~ <span class='no'>grp</span>-<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>dat</span>, <span class='kw'>constr</span><span class='kw'>=</span><span class='no'>cm</span>, <span class='kw'>rhs</span><span class='kw'>=</span><span class='fu'>rep</span>(<span class='fl'>0</span>,<span class='fu'>nrow</span>(<span class='no'>cm</span>)), <span class='kw'>nec</span><span class='kw'>=</span><span class='fl'>0</span>)
 <span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>sim</span>(<span class='no'>fm</span>, <span class='kw'>n.sims</span><span class='kw'>=</span><span class='fl'>1000</span>)$<span class='no'>coef</span>
-<span class='fu'>pairs</span>(<span class='fu'>t</span>(<span class='no'>b</span>), <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.3</span>)</div><div class='img'><img src='sim-3.png' alt='' width='700' height='432.632880098887' /></div></pre>
+<span class='fu'>pairs</span>(<span class='fu'>t</span>(<span class='no'>b</span>), <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.3</span>)</div><div class='img'><img src='sim-1.png' alt='' width='700' height='432.632880098887' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -149,8 +147,6 @@
       <li><a href="#examples">Examples</a></li>
     </ul>
 
-    <h2>Author</h2>
-    Daniel Gerhard and Rebecca M. Kuiper
   </div>
 </div>
 

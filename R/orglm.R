@@ -1,3 +1,69 @@
+#' Fitting Order-Restricted Generalised Linear Models
+#' 
+#' \code{orglm} is used to fit generalised linear models with restrictions on the parameters, specified by giving a description of the linear predictor, a description of the error distribution, and a description of a matrix with linear constraints. The \code{quadprog} package is used to apply linear constraints on the parameter vector.
+#' 
+#' Non-\code{NULL} \code{weights} can be used to indicate that different observations have different dispersions (with the values in \code{weights} being inversely proportional to the dispersions); or equivalently, when the elements of \code{weights} are positive integers \eqn{w_i}, that each response \eqn{y_i} is the mean of \eqn{w_i} unit-weight observations.  For a binomial GLM prior weights are used to give the number of trials when the response is the proportion of successes: they would rarely be used for a Poisson GLM.
+#' If more than one of \code{etastart}, \code{start} and \code{mustart} is specified, the first in the list will be used.  It is often advisable to supply starting values for a \code{\link{quasi}} family, and also for families with unusual links such as \code{gaussian("log")}.
+#' For the background to warning messages about \sQuote{fitted probabilities numerically 0 or 1 occurred} for binomial GLMs, see Venables & Ripley (2002, pp. 197--8).
+#' 
+#' @param formula an object of class \code{"\link{formula}"} (or one that can be coerced to that class): a symbolic description of the model to be fitted.
+#' @param family a description of the error distribution and link function to be used in the model. This can be a character string naming a family function, a family function or the result of a call to a family function.  (See \code{\link{family}} for details of family functions.)
+#' @param data an optional data frame, list or environment (or object coercible by \code{\link{as.data.frame}} to a data frame) containing the variables in the model. If not found in \code{data}, the variables are taken from \code{environment(formula)}, typically the environment from which \code{orglm} is called.
+#' @param weights an optional vector of \sQuote{prior weights} to be used in the fitting process. Should be \code{NULL} or a numeric vector.
+#' @param subset an optional vector specifying a subset of observations to be used in the fitting process.
+#' @param na.action a function which indicates what should happen when the data contain \code{NA}s.  The default is set by the \code{na.action} setting of \code{\link{options}}, and is \code{\link{na.fail}} if that is unset. The \sQuote{factory-fresh} default is \code{\link{na.omit}}.  Another possible value is \code{NULL}, no action.  Value \code{\link{na.exclude}} can be useful.
+#' @param start starting values for the parameters in the linear predictor.
+#' @param etastart starting values for the linear predictor.
+#' @param mustart starting values for the vector of means.
+#' @param offset this can be used to specify an \emph{a priori} known component to be included in the linear predictor during fitting. This should be \code{NULL} or a numeric vector of length equal to the number of cases. One or more \code{\link{offset}} terms can be included in the formula instead or as well, and if more than one is specified their sum is used. See \code{\link{model.offset}}.
+#' @param control a list of parameters for controlling the fitting process. For \code{orglm} this is passed to \code{\link{glm.control}}.
+#' @param model a logical value indicating whether \emph{model frame} should be included as a component of the returned value.
+#' @param method the method to be used in fitting the model. The default method \code{"orglm.fit"} uses iteratively reweighted least squares with a quadradic programming step included at each iteration.
+#' @param x is a design matrix of dimension \code{n * p}
+#' @param y is a vector of observations of length \code{n}.
+#' @param contrasts an optional list. See the \code{contrasts.arg} of \code{model.matrix.default}.
+#' @param intercept logical. Should an intercept be included in the \emph{null} model?
+#' @param constr a matrix with linear constraints. The columns of this matrix should correspond to the columns of the design matrix.
+#' @param rhs right hand side of the linear constraint formulation. A numeric vector with a length corresponding to the rows of \code{constr}.
+#' @param nec Number of equality constrints. The first \code{nec} constraints defined in \code{constr} are treated as equality constraints; the remaining ones are inequality constraints.
+#' @param ... For \code{orglm}: arguments to be used to form the default \code{control} argument if it is not supplied directly.
+#' 
+#' @return An object of class \code{"orglm"} is a list containing at least the following components:
+#' \describe{
+#'   \item{coefficients}{a named vector of coefficients}
+#'   \item{residuals}{the \emph{working} residuals, that is the residuals in the final iteration of the IWLS fit. Since cases with zero weights are omitted, their working residuals are \code{NA}.}
+#'   \item{fitted.values}{the fitted mean values, obtained by transforming the linear predictors by the inverse of the link function.}
+#'   \item{rank}{the numeric rank of the fitted linear model.}
+#'   \item{family}{the \code{\link{family}} object used.}
+#'   \item{linear.predictors}{the linear fit on link scale.}
+#'   \item{deviance}{up to a constant, minus twice the maximized log-likelihood.  Where sensible, the constant is chosen so that a saturated model has deviance zero.}
+#'   \item{null.deviance}{The deviance for the null model, comparable with \code{deviance}. The null model will include the offset, and an intercept if there is one in the model. Note that this will be incorrect if the link function depends on the data other than through the fitted mean: specify a zero offset to force a correct calculation.}
+#'   \item{iter}{the number of iterations of IWLS used.}
+#'   \item{weights}{the \emph{working} weights, that is the weights in the final iteration of the IWLS fit.}
+#'   \item{prior.weights}{the weights initially supplied, a vector of \code{1}s if none were.}
+#'   \item{df.residual}{the residual degrees of freedom of the unconstrained model.}
+#'   \item{df.null}{the residual degrees of freedom for the null model.}
+#'   \item{y}{if requested (the default) the \code{y} vector used. (It is a vector even for a binomial model.)}
+#'   \item{converged}{logical. Was the IWLS algorithm judged to have converged?}
+#'   \item{boundary}{logical. Is the fitted value on the boundary of the attainable values?}
+#' }
+#' 
+#' @author Modification of the original glm.fit by Daniel Gerhard.
+#' The original \R implementation of \code{glm} was written by Simon Davies working for Ross Ihaka at the University of Auckland, but has since been extensively re-written by members of the R Core team.
+#' The design was inspired by the S function of the same name described in Hastie & Pregibon (1992).
+#' 
+#' @references 
+#' \itemize{
+#' \item Dobson, A. J. (1990) \emph{An Introduction to Generalized Linear Models.} London: Chapman and Hall.
+#' \item Hastie, T. J. and Pregibon, D. (1992) \emph{Generalized linear models.} Chapter 6 of \emph{Statistical Models in S} eds J. M. Chambers and T. J. Hastie, Wadsworth & Brooks//Cole.
+#' \item McCullagh P. and Nelder, J. A. (1989) \emph{Generalized Linear Models.} London: Chapman and Hall.
+#' \item Venables, W. N. and Ripley, B. D. (2002) \emph{Modern Applied Statistics with S.} New York: Springer.
+#' }
+#' 
+#' @seealso \code{\link{glm}}, \code{\link[quadprog]{solve.QP}}
+#' 
+#' @keywords models
+
 orglm <- function (formula, family = gaussian, data, weights, subset, na.action, start = NULL, etastart, mustart, offset, control = list(...), model = TRUE, method = "orglm.fit", x = FALSE, y = TRUE, contrasts = NULL, constr, rhs, nec, ...) 
 {
   call <- match.call()
@@ -49,8 +115,7 @@ orglm <- function (formula, family = gaussian, data, weights, subset, na.action,
   fit
 }
 
-########################################################################################
-
+#' @rdname orglm
 orglm.fit <- function(x, y, weights = rep(1, nobs), start = NULL, etastart = NULL, mustart = NULL, offset = rep(0, nobs), family = gaussian(), control = list(), intercept = TRUE, constr, rhs, nec){
 
   if (is.numeric(constr)) constr <- rbind(constr)

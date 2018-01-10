@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fitting generalized least squares regression models with order restrictions — orglsSet • goric</title>
+<title>Set of generalised least-squares models — orglsSet • goric</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -78,19 +78,15 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fitting generalized least squares regression models with order restrictions</h1>
+    <h1>Set of generalised least-squares models</h1>
     </div>
 
     
-    <p>It determines the order-restricted maximum likelihood estimates 
-and the corresponding log likelihood for the hypothesis of interest.
-Additionally it gives the (unconstrained) maximum likelihood estimates and
-the active contraints.</p>
+    <p>Fitting a specific set of generalisd least-squares models with order restrictions.</p>
     
 
-    <pre class="usage"><span class='fu'>orglsSet</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='kw'>NULL</span>,
-         <span class='kw'>correlation</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='no'>set</span>, <span class='kw'>direction</span><span class='kw'>=</span><span class='st'>"increase"</span>,
-         <span class='kw'>n</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>base</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='orlmcontrol.html'>orlmcontrol</a></span>())</pre>
+    <pre class="usage"><span class='fu'>orglsSet</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>correlation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>set</span>,
+  <span class='kw'>direction</span> <span class='kw'>=</span> <span class='st'>"increase"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='orlmcontrol.html'>orlmcontrol</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -105,19 +101,15 @@ the active contraints.</p>
     </tr>
     <tr>
       <th>weights</th>
-      <td><p>a <code>varClasses</code> object; more details are
-    provided on the help pages in R package <code>nlme</code></p></td>
+      <td><p>a <code>varClasses</code> object; more details are provided on the help pages in R package <code>nlme</code></p></td>
     </tr>
     <tr>
       <th>correlation</th>
-      <td><p>a <code>corClasses</code> object; more details are
-    provided on the help pages in R package <code>nlme</code></p></td>
+      <td><p>a <code>corClasses</code> object; more details are provided on the help pages in R package <code>nlme</code></p></td>
     </tr>
     <tr>
       <th>set</th>
-      <td><p>either a character string (see <code><a href='constrSet.html'>constrSet</a></code>), or
-  a list with slots for constr, rhs, and nec similarly defined as in
-  <code><a href='orlm.html'>orlm</a></code></p></td>
+      <td><p>either a character string (see <code><a href='constrSet.html'>constrSet</a></code>), or a list with slots for constr, rhs, and nec similarly defined as in <code><a href='orlm.html'>orlm</a></code></p></td>
     </tr>
     <tr>
       <th>direction</th>
@@ -129,37 +121,25 @@ the active contraints.</p>
     </tr>
     <tr>
       <th>base</th>
-      <td><p>column of the constraint matrix representing a control
-    group</p></td>
+      <td><p>column of the constraint matrix representing a control group</p></td>
     </tr>
     <tr>
       <th>control</th>
-      <td><p>a list of control arguments; see
-    <code><a href='orlmcontrol.html'>orlmcontrol</a></code> for details.</p></td>
+      <td><p>a list of control arguments; see <code><a href='orlmcontrol.html'>orlmcontrol</a></code> for details.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function is just a wrapper for repeated calls of
-  <code><a href='orgls.html'>orgls</a></code> with different constraint definitions.
-  Predefined lists with constraint-sets can be constructed with function <code><a href='constrSet.html'>constrSet</a></code>.</p>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>an object of class list</p>
+    <p>a list with orgls objects</p>
     
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Kuiper R.M., Hoijtink H., Silvapulle M.J. (2011). An Akaike-type Information
-Criterion for Model Selection Under Inequality Constraints. <em>Biometrika</em>, 
-<b>98</b>, 495--501.</p>
-<p>Kuiper R.M., Hoijtink H., Silvapulle M.J. (2012). Generalization of the Order-Restricted Information Criterion for Multivariate Normal Linear Models. <em>Journal of Statistical Planning and Inference</em>, <b>142</b>, 2454-2463. doi:10.1016/j.jspi.2012.03.007.</p>
-<p>Kuiper R.M. and Hoijtink H. (submitted). A Fortran 90 Program for the Generalization of the Order-Restricted Information Criterion. Journal of Statictical Software.</p>
+    <p>This function is just a wrapper for repeated calls of <code><a href='orgls.html'>orgls</a></code> with different constraint definitions. Predefined lists with constraint-sets can be constructed with function <code><a href='constrSet.html'>constrSet</a></code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='orlm.html'>orlm</a></code>, <code><a href='constrSet.html'>constrSet</a></code>, <code><a href='goric.html'>goric</a></code></p>
+    <p><code><a href='orgls.html'>orgls</a></code>, <code><a href='constrSet.html'>constrSet</a></code>, <code><a href='goric.html'>goric</a></code></p>
     
 
   </div>
@@ -168,17 +148,13 @@ Criterion for Model Selection Under Inequality Constraints. <em>Biometrika</em>,
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
-
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#references">References</a></li>
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>
 
-    <h2>Author</h2>
-    Daniel Gerhard and Rebecca M. Kuiper
   </div>
 </div>
 
