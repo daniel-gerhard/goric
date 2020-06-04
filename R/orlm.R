@@ -106,7 +106,7 @@
 
 orlm <-
 function(formula, data, constr, rhs, nec, control=orlmcontrol()){
-UseMethod("orlm")
+  UseMethod("orlm")
 }
 
 #' @rdname orlm

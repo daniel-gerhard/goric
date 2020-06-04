@@ -1,5 +1,5 @@
 export(orlm, orgls, goric, goric_penalty, orlmcontrol, sim, orlmSet, orglsSet, constrMat, constrSet, orglm, orglm.fit, orglm_penalty)
-exportClasses("orlm","orgls","orglm","goric")
+#exportClasses("orlm","orgls","orglm","goric")
 
 import("nlme")
 import("parallel")

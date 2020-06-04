@@ -1,8 +1,8 @@
 Package: goric
 Type: Package
 Title: Generalized Order-Restricted Information Criterion
-Version: 1.1-0
-Date: 2018-01-10
+Version: 1.1-1
+Date: 2020-06-04
 Authors@R: c(person("Daniel", "Gerhard", role = c("aut", "cre"),
 		     email = "00gerhard@gmail.com"),
 	      person("Rebecca M.", "Kuiper", role = "aut"))
