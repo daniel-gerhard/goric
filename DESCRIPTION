@@ -1,8 +1,8 @@
 Package: goric
 Type: Package
 Title: Generalized Order-Restricted Information Criterion
-Version: 1.1-1
-Date: 2020-06-04
+Version: 1.1-2
+Date: 2021-04-21
 Authors@R: c(person("Daniel", "Gerhard", role = c("aut", "cre"),
 		     email = "00gerhard@gmail.com"),
 	      person("Rebecca M.", "Kuiper", role = "aut"))
@@ -13,6 +13,6 @@ Imports: quadprog, mvtnorm, MASS, Matrix, parallel
 License: GPL (>=2)
 LazyData: yes
 LazyLoad: yes
-Suggests: knitr
+Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
